@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Payment Success - Payment Gateway{% endblock %}
+
+{% block heading %}Payment Successful!{% endblock %}
+{% block subheading %}Your transaction has been processed successfully{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 40px 0;">
+    <div style="margin-bottom: 30px;">
+        <svg width="100" height="100" viewBox="0 0 100 100" style="margin-bottom: 20px;">
+            <circle cx="50" cy="50" r="45" fill="#4caf50" opacity="0.1"/>
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#4caf50" stroke-width="3"/>
+            <path d="M30 50 L45 65 L70 35" stroke="#4caf50" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
+    
+    {% if transaction %}
+    <div style="background: #f8f9fa; border-radius: 12px; padding: 30px; margin-bottom: 30px; text-align: left;">
+        <h2 style="color: #333; margin-bottom: 20px; font-size: 20px; text-align: center;">Transaction Details</h2>
+        
+        <div style="display: grid; gap: 15px;">
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #dee2e6;">
+                <span style="color: #666; font-weight: 600;">Transaction ID:</span>
+                <span style="color: #333; font-family: monospace;" id="transaction-id">{{ transaction.transaction_id }}</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #dee2e6;">
+                <span style="color: #666; font-weight: 600;">Cardholder Name:</span>
+                <span style="color: #333;" id="cardholder-name">{{ transaction.cardholder_name }}</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #dee2e6;">
+                <span style="color: #666; font-weight: 600;">Card Number:</span>
+                <span style="color: #333;" id="card-number">•••• •••• •••• {{ transaction.card_last_four }}</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #dee2e6;">
+                <span style="color: #666; font-weight: 600;">Amount:</span>
+                <span style="color: #4caf50; font-size: 24px; font-weight: 700;" id="amount">${{ "%.2f"|format(transaction.amount) }}</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #dee2e6;">
+                <span style="color: #666; font-weight: 600;">Status:</span>
+                <span style="color: #4caf50; font-weight: 700; text-transform: uppercase;" id="status">{{ transaction.status }}</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+                <span style="color: #666; font-weight: 600;">Date & Time:</span>
+                <span style="color: #333;" id="timestamp">{{ transaction.timestamp }}</span>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-error" style="margin-bottom: 30px;">
+        No transaction information available.
+    </div>
+    {% endif %}
+    
+    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+        <a href="/" class="btn" id="home-btn">Return Home</a>
+        <a href="/payment" class="btn btn-secondary" id="new-payment-btn">Make Another Payment</a>
+        <a href="/transactions" class="btn btn-secondary" id="view-all-btn">View All Transactions</a>
+    </div>
+    
+    <div style="margin-top: 40px; padding: 20px; background: #e3f2fd; border-radius: 8px; color: #1976d2; font-size: 14px;">
+        <strong>📧 Confirmation Email Sent</strong>
+        <p style="margin-top: 10px; color: #555;">A receipt has been sent to your email address with the transaction details.</p>
+    </div>
+</div>
+{% endblock %}
